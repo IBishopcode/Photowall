@@ -1,17 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import './styles/stylesheet.css'
+import rootReducer from './redux/reducer'
+import { createStore, applyMiddleware } from 'redux'
+import { Provider } from "react-redux";
+import thunk from "redux-thunk";
+import { database } from "./database/config";
+import App from './Components/App'
+const store = createStore(rootReducer,window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),applyMiddleware(thunk))
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+const container = ReactDOM.createRoot(document.getElementById('root'))
+container.render(<Provider store={store}><BrowserRouter><App/></BrowserRouter></Provider>)
+// ReactDOM.render(<Provider store={store}><BrowserRouter><App/></BrowserRouter></Provider>,document.getElementById('root'))
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+// const container = document.getElementById('root');
+// const root = createRoot(container); // createRoot(container!) if you use TypeScript
+// root.render(<Main />);
